@@ -36,15 +36,13 @@ def handler(event, context):
         data = identity.get_address(address_lookup, data)
         data = json.dumps(data)
 
-    elif request_type.upper() == "CONFIRM_ADDRESS":
-        confirm_url = attributes_data["ConfirmUrl"]
-        data = identity.confirm_address(address_lookup, confirm_url)
+    elif request_type.upper() in ("CONFIRM_ADDRESS", "CLOSE_ADDRESS_TX"):
+        url = attributes_data.get("ConfirmUrl") or attributes_data.get(
+            "CloseUrl"
+        )
+        data = identity.finalize_tx(address_lookup, url)
         data = json.dumps(data)
 
-    elif request_type.upper() == "CLOSE_ADDRESS_TX":
-        close_url = attributes_data["CloseUrl"]
-        data = identity.close_address_tx(address_lookup, close_url)
-        data = json.dumps(data)
     else:
         raise ValueError(
             f"AddressTxResource type: {request_type} is unsupported"

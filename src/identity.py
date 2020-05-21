@@ -84,12 +84,6 @@ def get_address(address_lookup: AddressTransaction, user_data: dict):
 
 
 @tracer.capture_method
-def confirm_address(address_lookup: AddressTransaction, url: str):
-    payload = {"url": url}
-    return address_lookup.request(payload)
-
-
-@tracer.capture_method
-def close_address_tx(address_lookup: AddressTransaction, url: str):
+def finalize_tx(address_lookup: AddressTransaction, url: str):
     payload = {"url": url}
     return address_lookup.request(payload)

@@ -125,7 +125,7 @@ def test_confirm_address(url, expected):
         host="example.com", username="foo", password="bar"
     )
 
-    r = identity.confirm_address(address_lookup, url)
+    r = identity.finalize_tx(address_lookup, url)
 
     assert r == expected
 
@@ -159,6 +159,6 @@ def test_close_address_tx(url, expected):
         host="example.com", username="foo", password="bar"
     )
 
-    r = identity.close_address_tx(address_lookup, url)
+    r = identity.finalize_tx(address_lookup, url)
 
     assert r == expected
