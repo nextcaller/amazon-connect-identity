@@ -2,6 +2,14 @@
 
 Cloudformation template and Python script to invoke Next Caller's Identity API function. The function can be used in conjunction with Amazon's Connect platform to resolve Name and Address Information for a given caller.
 
+## Credentials
+
+If you'd like to use the Next Caller Identity API please reach out to us at [https://nextcaller.com](https://nextcaller.com) to obtain credentials.
+
+## Official API Documentation
+
+Documentation for the Next Caller Identity API can be found at: [https://docs.nextcaller.com/identity](https://docs.nextcaller.com/identity)
+
 ## Usage
 
 Use `sam` to build, invoke and deploy the function.
