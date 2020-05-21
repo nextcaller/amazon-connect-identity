@@ -1,3 +1,5 @@
+![Build](https://github.com/nextcaller/amazon-connect-identity/workflows/Build/badge.svg)
+
 # Next Caller Identity API for Amazon Connect
 
 Cloudformation template and Python script to invoke Next Caller's Identity API function. The function can be used in conjunction with Amazon's Connect platform to resolve Name and Address Information for a given caller.
