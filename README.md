@@ -10,7 +10,7 @@ If you'd like to use the Next Caller Identity API please reach out to us at [htt
 
 ## Official API Documentation
 
-Documentation for the Next Caller Identity API can be found at: [https://docs.nextcaller.com/identity](https://docs.nextcaller.com/identity)
+Documentation for the Next Caller Identity API can be found at: [https://docs.nextcaller.com/identity](https://docs.nextcaller.com/identity/index.html)
 
 ## Usage
 
@@ -34,3 +34,4 @@ Unit tests can be ran by installing this project in a virtual environment and ru
 * `./ve/bin/pip install --upgrade pip`
 * `source ve/bin/activate`
 * `pip install -e .[test]`
+* `./scripts/run-tests.sh`

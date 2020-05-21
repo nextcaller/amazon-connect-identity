@@ -1,6 +1,7 @@
 *.egg-info/
-.pytest_cache*
-ve/*
 .coverage
-htmlcov/*
+.pytest_cache*
+.python-version
 build/*
+htmlcov/*
+ve/*
