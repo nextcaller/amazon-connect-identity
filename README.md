@@ -22,7 +22,7 @@ Use `sam` to build, invoke and deploy the function.
 ##### SAM Invoke:
 There are a few sample events in the [events](events/) folder. You can modify them as needed to invoke this locally.
 
-`sam local invoke -t build -t build/template.yaml -e example_events/REPLACE_ME --parameter-overrides ParameterKey=LogLevel,ParameterValue=INFO ParameterKey=IdentityAPIUsername,ParameterValue=REPLACE_ME ParameterKey=IdentityAPIPassword,ParameterValue=REPLACE_ME`
+`sam local invoke -t build/template.yaml -e example_events/REPLACE_ME --parameter-overrides ParameterKey=LogLevel,ParameterValue=INFO ParameterKey=IdentityAPIUsername,ParameterValue=REPLACE_ME ParameterKey=IdentityAPIPassword,ParameterValue=REPLACE_ME`
 
 ##### SAM Deploy:
 `sam deploy -t build/template.yaml --s3-bucket REPLACE_ME --stack-name REPLACE_ME --parameter-overrides ParameterKey=LogLevel,ParameterValue=INFO ParameterKey=IdentityAPIUsername,ParameterValue=REPLACE_ME ParameterKey=IdentityAPIPassword,ParameterValue=REPLACE_ME --capabilities CAPABILITY_IAM`
