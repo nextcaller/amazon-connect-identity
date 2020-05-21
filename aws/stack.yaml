@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Next Caller Identity Lambda Function for Amazon Connect
+
+Parameters:
+  LogLevel:
+    Type: String
+    Description: Lambda function log level.
+    AllowedValues: ["INFO", "DEBUG", "WARN", "CRITICAL", "ERROR"]
+  LogRetentionInDays:
+    Type: Number
+    Description: Number of days to retain the CloudWatch logs
+    Default: 3
+  IdentityApiHost:
+    Type: String
+    Description: Identity API Endpoint
+    Default: "api-pre.address-lookup.nextcaller.com"
+  IdentityAPIUsername:
+    Type: String
+    Description: Username for Next Caller"s Address Transaction API
+    NoEcho: true
+  IdentityAPIPassword:
+    Type: String
+    Description: Password for Next Caller"s Address Transaction API
+    NoEcho: true
+
+Globals:
+  Function:
+    Runtime: python3.7
+    Tracing: Active
+
+
+Resources:
+  FunctionLog:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${Function}"
+      RetentionInDays: !Ref LogRetentionInDays
+
+
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: |
+        Use Next Caller's Identity API to resolve name and address information about a given caller.
+      Handler: main.handler
+      CodeUri: ../src/
+      MemorySize: 128
+      Timeout: 7
+      Policies:
+        - AWSLambdaExecute
+      Environment:
+        Variables:
+          API_ENDPOINT: !Ref IdentityApiHost
+          USERNAME: !Ref IdentityAPIUsername
+          PASSWORD: !Ref IdentityAPIPassword
+          POWERTOOLS_LOGGER_LOG_EVENT: "true"
+          LOG_LEVEL: !Ref LogLevel

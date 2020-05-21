@@ -1,0 +1,6 @@
+*.egg-info/
+.pytest_cache*
+ve/*
+.coverage
+htmlcov/*
+build/*

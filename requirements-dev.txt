@@ -1,0 +1,4 @@
+aws-sam-cli
+pytest
+pytest-cov
+responses
