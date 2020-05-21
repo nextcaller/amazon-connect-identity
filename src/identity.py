@@ -25,6 +25,7 @@ class AddressTransaction:
         self.session.headers.update(
             {"Content-Type": "application/json", "Accept": "application/json"}
         )
+        self.session.auth = (username, password)
         self.timeout = timeout
         self.username = username
         self.password = password
@@ -44,18 +45,9 @@ class AddressTransaction:
     def request(self, payload: dict):
         url = payload.get("url", self.url)
         if url.endswith("/confirm") or url.endswith("/close"):
-            resp = self.session.post(
-                url,
-                auth=HTTPBasicAuth(self.username, self.password),
-                timeout=self.timeout,
-            )
+            resp = self.session.post(url, timeout=self.timeout,)
         else:
-            resp = self.session.post(
-                url,
-                json=payload,
-                auth=HTTPBasicAuth(self.username, self.password),
-                timeout=self.timeout,
-            )
+            resp = self.session.post(url, json=payload, timeout=self.timeout,)
         resp.raise_for_status()
         return resp.json()
 
