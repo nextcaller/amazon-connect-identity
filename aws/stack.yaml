@@ -11,15 +11,15 @@ Parameters:
     Type: Number
     Description: Number of days to retain the CloudWatch logs
     Default: 3
-  IdentityApiHost:
+  ApiHost:
     Type: String
     Description: Identity API Endpoint
     Default: "api-pre.address-lookup.nextcaller.com"
-  IdentityAPIUsername:
+  APIUsername:
     Type: String
     Description: Username for Next Caller"s Address Transaction API
     NoEcho: true
-  IdentityAPIPassword:
+  APIPassword:
     Type: String
     Description: Password for Next Caller"s Address Transaction API
     NoEcho: true
@@ -51,8 +51,8 @@ Resources:
         - AWSLambdaExecute
       Environment:
         Variables:
-          API_ENDPOINT: !Ref IdentityApiHost
-          USERNAME: !Ref IdentityAPIUsername
-          PASSWORD: !Ref IdentityAPIPassword
+          API_ENDPOINT: !Ref ApiHost
+          USERNAME: !Ref APIUsername
+          PASSWORD: !Ref APIPassword
           POWERTOOLS_LOGGER_LOG_EVENT: "true"
           LOG_LEVEL: !Ref LogLevel

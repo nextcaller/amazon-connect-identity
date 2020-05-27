@@ -53,34 +53,8 @@ class AddressTransaction:
 
 
 @tracer.capture_method
-def get_address(address_lookup: AddressTransaction, user_data: dict):
-    address_data = {}
-    confirmation_url = {}
-    retry_url = {}
-    data = {}
-
-    logger.info({"messsage": f"requesting {user_data.get('phone')}"})
-    resp = address_lookup.request(user_data)
-    if resp:
-        address_data = resp["address"] if resp.get("address") else {}
-        confirm_link = resp["confirmation_link"]
-        close_link = resp["close_link"]
-
-        data = {
-            "FirstName": address_data.get("first_name"),
-            "LastName": address_data.get("last_name"),
-            "AddressL1": address_data.get("line1"),
-            "AddressL2": address_data.get("line2"),
-            "City": address_data.get("city"),
-            "State": address_data.get("state"),
-            "Zip": address_data.get("zip"),
-            "CloseUrl": f"https://{address_lookup.host}{close_link}",
-            "ConfirmationUrl": f"https://{address_lookup.host}{confirm_link}"
-            if confirm_link
-            else None,
-        }
-
-    return data
+def get_address(address_lookup: AddressTransaction, payload: dict):
+    return address_lookup.request(payload)
 
 
 @tracer.capture_method
