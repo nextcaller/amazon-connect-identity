@@ -35,3 +35,7 @@ Unit tests can be ran by installing this project in a virtual environment and ru
 * `source ve/bin/activate`
 * `pip install -e .[test]`
 * `./scripts/run-tests.sh`
+
+##### Assumptions:
+
+The function presumes that if you intend to "close" or "confirm" an address transaction then you'll pass it either `ConfirmUrl` or `CloseUrl` as a parameter when invoking it.
