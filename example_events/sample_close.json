@@ -2,7 +2,7 @@
   "Name": "ContactFlowEvent",
   "Details": {
     "ContactData": {
-      "Attributes": {"AddressTxResource": "CLOSE_ADDRESS_TX", "CloseUrl": "https://httpstat.us/200"},
+      "Attributes": {},
       "Channel": "VOICE",
       "ContactId": "5ca32fbd-8f92-46af-92a5-6b0f970f0efe",
       "CustomerEndpoint": {
@@ -28,6 +28,6 @@
         "Type": "TELEPHONE_NUMBER"
       }
     },
-    "Parameters": {}
+    "Parameters": {"AddressTxResource": "CLOSE_ADDRESS_TX", "CloseUrl": "https://httpstat.us/200"}
   }
 }
