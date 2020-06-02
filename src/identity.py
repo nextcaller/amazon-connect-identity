@@ -11,7 +11,6 @@ logger = Logger()
 
 
 class AddressTransaction:
-    @tracer.capture_method
     def __init__(
         self,
         host: str,
@@ -41,7 +40,6 @@ class AddressTransaction:
         adapter = HTTPAdapter(max_retries=retry)
         self.session.mount("https://", adapter)
 
-    @tracer.capture_method
     def request(self, payload: dict):
         url = payload.get("url", self.url)
         if url.endswith("/confirm") or url.endswith("/close"):
@@ -52,12 +50,22 @@ class AddressTransaction:
         return resp.json()
 
 
-@tracer.capture_method
 def get_address(address_lookup: AddressTransaction, payload: dict):
     return address_lookup.request(payload)
 
 
-@tracer.capture_method
 def finalize_tx(address_lookup: AddressTransaction, url: str):
     payload = {"url": url}
     return address_lookup.request(payload)
+
+
+def flatten_address_data(data: dict):
+    address_data = data.pop("addresses") if "addresses" in data else None
+
+    if address_data:
+        # Set the first element as address data and merge it
+        # back into the data dictionary.
+        address_data = {k: v for k, v in address_data[0].items()}
+        data.update(address_data)
+
+    return data

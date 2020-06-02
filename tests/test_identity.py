@@ -73,3 +73,82 @@ def test_close_address_tx(url, expected):
     r = identity.finalize_tx(address_lookup, url)
 
     assert r == expected
+
+
+@pytest.mark.parametrize(
+    "data,expected",
+    [
+        (
+            {
+                "addresses": [
+                    {
+                        "city": "New York",
+                        "zip": "10013",
+                        "state": "NY",
+                        "line1": "123 Fake St",
+                        "line2": None,
+                    },
+                    {
+                        "city": "Los Angeles",
+                        "zip": "90010",
+                        "state": "CA",
+                        "line1": "123 Fake St",
+                        "line2": None,
+                    },
+                ],
+                "close_link": "/address_transactions/id-1234/close",
+                "confirmation_link": "/address_transactions/id-1234/0/confirm",
+                "confirmed": False,
+                "first_name": "Jane",
+                "id": "id-1234",
+                "last_name": "Smith",
+                "phone": "+12125551212",
+                "retry_link": None,
+                "zip": None,
+            },
+            {
+                "city": "New York",
+                "close_link": "/address_transactions/id-1234/close",
+                "confirmation_link": "/address_transactions/id-1234/0/confirm",
+                "confirmed": False,
+                "first_name": "Jane",
+                "id": "id-1234",
+                "last_name": "Smith",
+                "line1": "123 Fake St",
+                "line2": None,
+                "phone": "+12125551212",
+                "retry_link": None,
+                "state": "NY",
+                "zip": "10013",
+            },
+        ),
+        (
+            {
+                "addresses": None,
+                "close_link": "/address_transactions/id-1234/close",
+                "confirmation_link": None,
+                "confirmed": False,
+                "first_name": None,
+                "id": "id-1234",
+                "last_name": None,
+                "phone": "+12125551212",
+                "retry_link": None,
+                "zip": None,
+            },
+            {
+                "close_link": "/address_transactions/id-1234/close",
+                "confirmation_link": None,
+                "confirmed": False,
+                "first_name": None,
+                "id": "id-1234",
+                "last_name": None,
+                "phone": "+12125551212",
+                "retry_link": None,
+                "zip": None,
+            },
+        ),
+    ],
+)
+def test_flatten_address_data(data, expected):
+    output = identity.flatten_address_data(data)
+    assert output == expected

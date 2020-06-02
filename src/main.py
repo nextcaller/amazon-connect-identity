@@ -21,31 +21,39 @@ address_lookup = identity.AddressTransaction(
 @tracer.capture_lambda_handler
 def handler(event, context):
     contact_data = event["Details"].get("ContactData")
-    attributes_data = contact_data["Attributes"] if contact_data else {}
+    parameters = event["Details"].get("Parameters", {})
     contact_id = contact_data["ContactId"]
 
-    request_type = attributes_data.get("AddressTxResource", "")
+    request_type = parameters.get("AddressTxResource", "GET_ADDRESS")
     logger.info({"RequestType": request_type, "ContactId": contact_id})
     if request_type.upper() == "GET_ADDRESS":
         tn = contact_data["CustomerEndpoint"]["Address"]
-        zip_code = attributes_data.get("ZipCodeHint", None)
+        zip_code = parameters.get("ZipCodeHint", None)
         data = {"phone": tn}
         if zip_code:
             data["zip_code"] = zip_code
 
         data = identity.get_address(address_lookup, data)
-        data = json.dumps(data)
+
+        # https://docs.aws.amazon.com/connect/latest/adminguide/connect-lambda-functions.html
+        # The output returned from the function must be a flat object of
+        # key/value pairs, with values that include only alphanumeric,
+        # dash, and underscore characters.
+        # Nested and complex objects are not supported. The size of the
+        # returned data must be less than 32 Kb of UTF-8 data.
+        # Because of this we flatten the response with the first address
+        data = identity.flatten_address_data(data)
 
     elif request_type.upper() in ("CONFIRM_ADDRESS", "CLOSE_ADDRESS_TX"):
-        url = attributes_data.get("ConfirmUrl") or attributes_data.get(
-            "CloseUrl"
-        )
+        url = parameters.get("ConfirmUrl") or parameters.get("CloseUrl")
         data = identity.finalize_tx(address_lookup, url)
-        data = json.dumps(data)
 
     else:
         raise ValueError(
             f"AddressTxResource type: {request_type} is unsupported"
         )
+
+    logger.debug(data)
+    data["data_source"] = "identity"
 
     return data
